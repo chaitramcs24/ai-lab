@@ -1,0 +1,42 @@
+
+
+def DLS(graph, node, goal, depth):
+    if node == goal:
+        return True
+
+    if depth == 0:
+        return False
+
+    for child in graph[node]:
+        if DLS(graph, child, goal, depth - 1):
+            return True
+
+    return False
+
+
+
+def IDS(graph, start, goal):
+    limit = 0
+
+    while True:
+        if DLS(graph, start, goal, limit):
+            print("Goal Found:", goal)
+            return
+
+        limit += 1
+
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F', 'G'],
+    'D': [],
+    'E': [],
+    'F': [],
+    'G': []
+}
+
+start = 'A'
+goal = 'F'
+
+IDS(graph, start, goal)
