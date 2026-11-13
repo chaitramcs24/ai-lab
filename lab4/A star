@@ -1,0 +1,79 @@
+
+# A* Search Algorithm
+
+graph = {
+    'A': [('B', 1), ('C', 2), ('H', 7)],
+    'B': [('D', 4), ('E', 6)],
+    'C': [('F', 3), ('G', 2)],
+    'D': [('E', 7)],
+    'E': [],
+    'F': [('H', 1)],
+    'G': [('H', 2)],
+    'H': []
+}
+
+# Heuristic values
+h = {
+    'A': 5,
+    'B': 3,
+    'C': 4,
+    'D': 2,
+    'E': 6,
+    'F': 3,
+    'G': 1,
+    'H': 0
+}
+
+
+def astar(start, goal):
+
+    open_list = [(h[start], 0, start)]
+    parent = {}
+    g_cost = {start: 0}
+
+    while open_list:
+
+        open_list.sort()
+
+        f, g, current = open_list.pop(0)
+
+        # Ignore outdated entries
+        if g > g_cost[current]:
+            continue
+
+        print("Visiting:", current)
+
+        if current == goal:
+
+            path = [current]
+
+            while current in parent:
+                current = parent[current]
+                path.append(current)
+
+            path.reverse()
+
+            print("Shortest Path:", path)
+            print("Total Cost:", g)
+            return
+
+        for neighbour, cost in graph[current]:
+
+            new_g = g + cost
+
+            if neighbour not in g_cost or new_g < g_cost[neighbour]:
+
+                g_cost[neighbour] = new_g
+                parent[neighbour] = current
+
+                new_f = new_g + h[neighbour]
+
+                open_list.append(
+                    (new_f, new_g, neighbour)
+                )
+
+    print("No path found")
+
+
+# Main program
+astar('A', 'H')
