@@ -1,0 +1,31 @@
+
+
+
+facts = ["Infection(Ravi)", "SoreThroat(Ravi)"]
+
+
+rules = [
+    (["Infection(Ravi)"], "Fever(Ravi)"),
+    (["SoreThroat(Ravi)"], "Cough(Ravi)"),
+    (["Fever(Ravi)", "Cough(Ravi)"], "Flu(Ravi)")
+]
+
+
+while True:
+    new_fact = False
+
+    for conditions, conclusion in rules:
+        if all(condition in facts for condition in conditions):
+            if conclusion not in facts:
+                facts.append(conclusion)
+                print("New fact:", conclusion)
+                new_fact = True
+
+    if not new_fact:
+        break
+
+
+if "Flu(Ravi)" in facts:
+    print("Flu(Ravi) is proved")
+else:
+    print("Flu(Ravi) cannot be proved")
